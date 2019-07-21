@@ -54,35 +54,28 @@ static vs_type generate_filter_naive(std::size_t elements_count) {
 }
 
 
+BENCHMARK_ALWAYS_INLINE
 static vs_type generate_optim(std::size_t elements_count) {
+    auto s = s_base + "00";
     vs_type v;
+    v.reserve(32);
 
     for (unsigned i = 0; i < elements_count; ++i) {
-        std::string s {s_base};
-        s += static_cast<char>(elements_count % 256);
+        s[s.size() - 2] = static_cast<char>(elements_count % 256);
         elements_count >>= 1;
-        s += static_cast<char>(elements_count % 256);
+        s[s.size() - 1] = static_cast<char>(elements_count % 256);
 
-        v.push_back(s);
+        if (std::hash<std::string>{}(s) & 1) {
+            v.push_back(s);
+        }
     }
 
     return v;
 }
 
+BENCHMARK_ALWAYS_INLINE
 static vs_type filter_optim(vs_type generated) {
-    vs_type dest;
-    dest.resize(generated.size());
-
-    const auto it = std::copy_if(
-        generated.begin(),
-        generated.end(),
-        dest.begin(),
-        [](const std::string& v) { return std::hash<std::string>{}(v) & 1; }
-    );
-
-    dest.erase(it, dest.end());
-
-    return dest;
+    return generated;
 }
 
 static vs_type generate_filter_optim(std::size_t elements_count) {

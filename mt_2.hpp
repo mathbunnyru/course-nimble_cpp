@@ -19,11 +19,11 @@ struct optim_read_write_var_t {
     std::atomic<int> variable{0};
 
     int load() const {
-        return variable.load();
+        return variable.load(std::memory_order_relaxed);
     }
 
     void store(int i) {
-        variable.store(i);
+        variable.store(i, std::memory_order_relaxed);
     }
 } optim_read_write_var;
 

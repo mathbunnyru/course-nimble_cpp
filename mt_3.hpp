@@ -71,19 +71,19 @@ class ultim_queue_t {
 public:
     using value_type = T;
 
-    void push(const T& val) {
-        std::lock_guard<std::mutex> l{mutex_};
-        data_.push_back(val);
+    void push(T val) {
+        {
+            std::lock_guard<std::mutex> l{mutex_};
+            data_.push_back(std::move(val));
+        }
         cond_.notify_one();
     }
 
     T pop() {
         std::unique_lock<std::mutex> lock{mutex_};
-        while (data_.empty()) {
-            cond_.wait(lock);
-        }
+        cond_.wait(lock, [&]() { return !data_.empty(); });
 
-        T res = data_.front();
+        T res = std::move(data_.front());
         data_.pop_front();
 
         return res;

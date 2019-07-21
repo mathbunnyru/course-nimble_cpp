@@ -1,7 +1,5 @@
 #include "util.hpp"
 
-//////////////////////////// TASK 6 ////////////////////////////
-
 struct  naive_complex {
     int real, im;
 
@@ -16,14 +14,10 @@ struct  naive_complex {
 
 struct  optim_complex { // TASK: Improve
     int real, im;
-
-    optim_complex() {}
-    optim_complex(const optim_complex& nc)
-        : real(nc.real)
-        , im(nc.im)
-    {}
-    ~optim_complex() {}
 };
+
+static_assert(!std::is_trivially_copyable_v<naive_complex>);
+static_assert(std::is_trivially_copyable_v<optim_complex>);
 
 
 //////////////////////////// DETAIL ////////////////////////////

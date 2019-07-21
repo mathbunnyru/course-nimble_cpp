@@ -4,10 +4,12 @@
 #include <deque>
 #include <list>
 
+#include "boost_container/boost/container/small_vector.hpp"
+
 //////////////////////////// TASK 1 ////////////////////////////
 
 using naive_container = std::vector<int>;
-using optimized_container = std::vector<int>;
+using optimized_container = boost::container::small_vector<int, 64>;
 
 
 //////////////////////////// DETAIL ////////////////////////////

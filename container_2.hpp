@@ -30,10 +30,7 @@ static void optim_containers_erase(benchmark::State& state, int) {
         fill_container(d, elements_count);
         state.ResumeTiming();
 
-        while (!d.empty()) {
-            // Optimize
-            d.erase(d.begin());
-        }
+        d.clear();
         benchmark::DoNotOptimize(d);
     }
     state.SetComplexityN(state.range(0));

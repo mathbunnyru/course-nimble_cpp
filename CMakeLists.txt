@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 2.8)
 
 if (CMAKE_VERSION VERSION_LESS "3.1")
   if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    set (CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+    set (CMAKE_CXX_FLAGS "-std=c++17 ${CMAKE_CXX_FLAGS}")
   endif ()
 else ()
-    set (CMAKE_CXX_STANDARD 11)
+    set (CMAKE_CXX_STANDARD 17)
 endif ()
 
 option (CMAKE_SUPPRESS_REGENERATION "Suppress the cmake macro that causes regeneration of build scripts during build" ON)
